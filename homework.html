@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<style>
+    body {
+        background-color: darkgreen;
+    }
+    
+    #daRedBox{
+        position: absolute;
+        top: 25%;
+        width: 100%;
+        height: 50%;
+        background-color: olive;
+    }
+
+    .daBluebox {
+        position: absolute;
+        top: 25%;
+        left: 25%;
+        width: 50%;
+        height: 50%;
+        background-color: chartreuse;
+    }
+    h1{
+        position: relative;
+        text-align: center;
+        top: 25%;
+    }
+</style>
+
+<body>
+    <div id="daRedBox">
+        <div class="daBluebox">
+            <h1 onclick="console.log('the div was clicked'), alert('Hello there')">Click here</h1>
+        </div>
+</body>
+<script>
+</script>
+</html>
