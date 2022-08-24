@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+</style>
+</head>
+<script src="myResult.js"></script>
+<body>
+
+<h2>State and Mode of Commute</h2>
+
+<table id = "mytable">
+  <tr>
+    <th>State</th>
+    <th>Mode of Commute</th>
+  </tr>
+</table>
+
+</body>
+<script>
+    var x =document.getElementById('mytable')
+
+    for (var i=7; i<28; i++){
+        var newrow =document.createElement('tr');
+        var mynewcell1 = document.createElement('td');
+        var mynewcell2 = document.createElement('td');
+        mynewcell1.innerText= MyResult.objects[i].State;
+        mynewcell2.innerText= MyResult.objects[i].Mode;
+        mynewcell2.className=MyResult.objects[i].Mode;
+
+        if(MyResult.objects[i].Mode== 'Bicycle') {mynewcell2.style.backgroundColor= 'green'}
+        if(MyResult.objects[i].Mode== 'Drove alone') {mynewcell2.style.backgroundColor= 'firebrick'}
+        if(MyResult.objects[i].Mode== 'Carpool') {mynewcell2.style.backgroundColor= 'mediumspringgreen'}
+        if(MyResult.objects[i].Mode== 'Worked at home') {mynewcell2.style.backgroundColor= 'lavenderblush'}
+        if(MyResult.objects[i].Mode== 'Taxi, motorcycle, or other') {mynewcell2.style.backgroundColor= 'lightcoral'}
+        if(MyResult.objects[i].Mode== 'Walked') {mynewcell2.style.backgroundColor= 'lightgreen'}
+        if(MyResult.objects[i].Mode== 'Public transportation') {mynewcell2.style.backgroundColor= 'mediumseagreen'}
+
+
+        newrow.append(mynewcell1)
+        newrow.append(mynewcell2)
+        x.append(newrow)
+    }
+</script>
+</html>
