@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    #myDiv {
+        background-color: lightgreen;
+        width: 800px;
+        height: 800px;
+
+    }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.14.0/plotly.min.js" integrity="sha512-XDnqTWsAcVl16AYJoBHumISzIYThowGjR67jeL53NSp6tajsq2qf5UeAWvk1n6Hp3M2iMsV/ewhPScBiLCDs9Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script src="myResult.js"></script>
+<body>
+<!-- command forward slash to create comment
+div#myDiv creates it easily -->
+    <div id="myDiv">
+    </div>
+    <script>
+    var MyResultUS= MyResult.slice(0,7)
+    // Number converts strings to numbers
+    var y = MyResultUS.map(e => e.Mode)
+    var x2004 = MyResultUS.map(e => e.Y2004)
+    var x2009 = MyResultUS.map(e => e.Y2009)
+    var x2014 = MyResultUS.map(e => e.Y2014)
+    var x2019 = MyResultUS.map(e => e.Y2019)
+
+    
+    var trace1 = {
+        x: y,
+        y: x2004,
+        name: '2004',
+        mode: 'markers',
+        type: 'bar',
+        marker: {
+            color: 'purple',
+            colorscale: 'Portland'
+        }
+      };
+
+      
+      var trace2 = {
+        x: y,
+        y: x2009,
+        name: '2009',
+        mode: 'markers',
+        type: 'bar',
+        marker: {
+            color: 'green',
+            colorscale: 'Portland'
+        }
+      };
+      
+      var trace3 = {
+        x: y,
+        y: x2014,
+        name: '2014',
+        mode: 'markers',
+        type: 'bar',
+        marker: {
+            color: 'lightgreen',
+            colorscale: 'Portland'
+        }
+      };
+      var trace4 = {
+        x: y,
+        y: x2019,
+        name: '2019',
+        mode: 'markers',
+        type: 'bar',
+        marker: {
+            color: 'blue',
+            colorscale: 'Portland'
+        }
+      };
+      var layout= {
+          title: {
+              text: 'US Commute Mode Percentage Over Time Bar Plot'
+          },
+          xaxis: {
+              title: {text: 'Commute Mode'}
+          },
+          yaxis: {
+              title: {text: 'Percentage of US Commuters'}
+          }
+      };
+
+      var data1 = [trace1, trace2, trace3, trace4];
+      
+      Plotly.newPlot('myDiv', data1, layout);
+      </script>
+Bar plots make great go to plots due to their commonality- many people are familiar reading this type of plot. They make comparison easy too. Limitations may arise with scaling bar plots; if one element is an outlier, the rest of the chart may be difficult to interpret.
+
+</body>
+</html>

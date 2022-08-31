@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    #myDiv {
+        background-color: lightgreen;
+        width: 800px;
+        height: 800px;
+
+    }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.14.0/plotly.min.js" integrity="sha512-XDnqTWsAcVl16AYJoBHumISzIYThowGjR67jeL53NSp6tajsq2qf5UeAWvk1n6Hp3M2iMsV/ewhPScBiLCDs9Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script src="myResult.js"></script>
+<body>
+<!-- command forward slash to create comment
+div#myDiv creates it easily -->
+    <div id="myDiv">
+    </div>
+    <script>
+    var MyResultUS= MyResult.slice(2,3)
+    // Number converts strings to numbers
+    var y2004 = ['2004','2004', '2004','2004', '2004','2004','2004']
+    var y2009 = ['2009']
+    var y2014= ['2014']
+    var y2019 = ['2019']
+
+    var x2004 = MyResultUS.map(e => e.Y2004)
+    var x2009 = MyResultUS.map(e => e.Y2009)
+    var x2014 = MyResultUS.map(e => e.Y2014)
+    var x2019 = MyResultUS.map(e => e.Y2019)
+    var xmode = MyResultUS.map(e => e.Mode)
+
+    // // var per2004 =[]
+    // for (let i = 0; i < MyResultUS.length; i++) {
+    //     per2004.push(MyResultUS[i].Y2004)
+    // };
+    // var per2009 = []
+    // for (let i = 0; i < MyResultUS.length; i++) {
+    //     per2009.push(MyResultUS[i].Y2009)
+    // };
+    // var per2014 = []
+    // for (let i = 0; i < MyResultUS.length; i++) {
+    //     per2014.push(MyResultUS[i].Y2014)
+    // };
+    // var per2019 = []
+    // for (let i = 0; i < MyResultUS.length; i++) {
+    //     per2019.push(MyResultUS[i].Y2019)
+    // };
+
+    
+    var trace1 = {
+        x: [2004, 2004, 2004, 2004, 2004, 2004, 2004],
+        // x: xmode,
+        y: x2004,
+        mode: 'markers',
+        type: 'scatter',
+        marker: {
+            color: 'purple',
+            colorscale: 'Portland'
+        }
+      };
+
+      
+      var trace2 = {
+        x: [2009, 2009, 2009, 2009, 2009, 2009, 2009],
+        // x: xmode,
+        y: x2009,
+        mode: 'markers',
+        type: 'scatter',
+        marker: {
+            color: 'purple',
+            colorscale: 'Portland'
+        }
+      };
+      
+      var trace3 = {
+        x: [2014, 2014, 2014, 2014, 2014, 2014, 2014],
+        // x: xmode,
+        y: x2014,
+        mode: 'markers',
+        type: 'scatter',
+        marker: {
+            color: 'purple',
+            colorscale: 'Portland'
+        }
+      };
+      var trace4 = {
+        x: [2019, 2019, 2019, 2019, 2019, 2019, 2019],
+        // x: xmode,
+        y: x2019,
+        mode: 'markers',
+        type: 'scatter',
+        marker: {
+            color: 'purple',
+            colorscale: 'Portland'
+        }
+      };
+      var layout= {
+          title: {
+              text: 'Percentage of US Working from Home Over Time'
+          },
+          xaxis: {
+              title: {text: 'Year'}
+          },
+          yaxis: {
+              title: {text: 'Percentage of US Commuters'}
+          }
+      };
+
+      var data1 = [trace1, trace2, trace3, trace4];
+      
+      Plotly.newPlot('myDiv', data1, layout);
+      </script>
+
+Scatter plots are wonderful for showing the realtionship between time and a variable. They are very easy to read and the slopes can indicate positive/negative relationships. A limitation is scaling is crucial when you have multiple variables and/or outliers. 
+</body>
+</html>
