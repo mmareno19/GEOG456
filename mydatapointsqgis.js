@@ -1,4 +1,4 @@
-var quake ={
+var quake = {
 "type": "FeatureCollection",
 "name": "mydatapointsqgis",
 "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },

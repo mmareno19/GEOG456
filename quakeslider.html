@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Madison Mareno Leaflet with </title>
+    <title>Madison Mareno Leaflet with Time Related Slider</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
     integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ=="
     crossorigin=""/>
@@ -20,37 +20,81 @@
     }
 </style>
 <body>
+    <br>
     
     <h2>Earthquakes from 2012-2022 in the Continential US and Surrounding Areas</h2>
-    <br>
-    <h3 id= "theYear"> Year</h3>
-
- 
-
-    <input type="range" name= "time" min= "" max="" oninput="console.log(this.value)">
-
-    <!-- COMMENTED LINES WORK FOR POLYGON DATA
-        <button onclick='geojson.setStyle({color: getRandomColor})'>Click me!</button> -->
+    <h3 id= "daYear">Date: </h3>
+    <input type="range" name= "fixeddate" min= "0" max="84" oninput="moveSlider(this.value)">
     <div id= "map"></div>
-    <script>
-    
-    // const dateObject = new Date(quake.time)
-
-    // const humanDateFormat = dateObject.toLocaleString()
-
-    for (let i = 0; i < quake.length; i++) {
-        const dateObject = new Date(quake.time[i]);
-        const humanDateFormat = dateObject[i].toLocaleString()
+    <!-- POLYGON CHANGES COLOR ON CLICK  -->
+    <!-- <button onclick='geojson.setStyle({color: getRandomColor})'>Click me!</button> --> -->
         
-    };
 
-    var map = L.map('map').setView([40.871336822819465, -98.92117121271882], 4);
+<script>
     
+
+    // FIXING DATE FROM TIMESTAMP TO YEAR
+    fixeddate = [];
+    for (var i = 0; i < quake.features.length; i++) {
+        var dateObject = new Date(quake.features[i].properties.time);
+        // fixeddate.push(dateObject.toISOString().replace(/T.*/,'').split('-').reverse().join('/'));    
+        fixeddate.push(dateObject.toLocaleDateString());    
+
+    };
+    for (var i=0; i<quake.features.length; i++) {
+    quake.features[i].properties['fixeddate'] = fixeddate[i]
+    console.log(typeof Number(fixeddate[i]))
+    };
+    
+
+    // SETTING MAP UP
+    var map = L.map('map').setView([40.871336822819465, -98.92117121271882], 4);
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
     attribution: '© OpenStreetMap'
     }).addTo(map);
+
+
+    // ADDING STYLE TO POINT
+    var eIcon = L.icon({
+    iconUrl: 'icon.png',
+    iconSize:     [20, 20], // size of the icon
+    iconAnchor:   [0, 0], // point of the icon which will correspond to marker's location
+    });
     
+    // ADDING POINT DATA
+    var geojson = L.geoJSON(quake.features[0], {
+        pointToLayer: function(feature, latlng){
+            return L.marker(latlng, {icon: eIcon})
+        }
+    }).addTo(map);
+
+    // FUNCTION MOVE SLIDER
+    function moveSlider(value) {
+        document.getElementById('daYear').innerHTML = 'Date: '+ value;
+        geojson.remove();
+        geojson = L.geoJSON(quake.features[value], {
+        pointToLayer: function(feature, latlng){
+            return L.marker(latlng, {icon: eIcon})
+
+        }
+        }).addTo(map);
+    }
+
+    // // SET SLIDER STARTING POSITION
+    // var myCurrent = 2017;
+    // moveSlider(myCurrent)
+
+    // // SLIDER CONTROLS
+    // function moveSlider(value) {
+    //     geojson.remove();
+    //     geojson = L.geoJSON(quake, features[value], {
+    //         pointToLayer: function (feature, latlng){
+    //             return L.marker(latlng, {icon:eIcon})
+    //     };
+        
+
+    // ADDING STYLE TO POLYGON
     // var myStyle = {
     //     "color": "#ff7800",
     //     "weight": 5,
@@ -59,19 +103,7 @@
 
     // var geojson = L.geoJSON(quake, {style: myStyle}).addTo(map);
 
-
-
-    var eIcon = L.icon({
-    iconUrl: 'icon.png',
-    iconSize:     [20, 20], // size of the icon
-    iconAnchor:   [0, 0], // point of the icon which will correspond to marker's location
-    });
-    
-    var geojson = L.geoJSON(quake, {
-        pointToLayer: function(feature, latlng){
-            return L.marker(latlng, {icon: eIcon})
-        }
-    }).addTo(map);
+    // POLYGON CHANGES COLOR BY BUTTON
     // function getRandomColor() {
     //     var letters = '0123456789ABCDEF';
     //     var color = '#';
@@ -83,5 +115,8 @@
     
     </script>
 
+
 </body>
+
+
 </html>
