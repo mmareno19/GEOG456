@@ -27,7 +27,7 @@
     <input type="range" name= "fixeddate" min= "0" max="84" oninput="moveSlider(this.value)">
     <div id= "map"></div>
     <!-- POLYGON CHANGES COLOR ON CLICK  -->
-    <!-- <button onclick='geojson.setStyle({color: getRandomColor})'>Click me!</button> --> -->
+    <!-- <button onclick='geojson.setStyle({color: getRandomColor})'>Click me!</button> -->
         
 
 <script>
@@ -69,9 +69,10 @@
         }
     }).addTo(map);
 
+
     // FUNCTION MOVE SLIDER
     function moveSlider(value) {
-        document.getElementById('daYear').innerHTML = 'Date: '+ value;
+        document.getElementById('daYear').innerHTML = 'Date: '+ fixeddate[value];
         geojson.remove();
         geojson = L.geoJSON(quake.features[value], {
         pointToLayer: function(feature, latlng){
@@ -82,8 +83,8 @@
     }
 
     // // SET SLIDER STARTING POSITION
-    // var myCurrent = 2017;
-    // moveSlider(myCurrent)
+    var myCurrent = 1/19/2018;
+     moveSlider(myCurrent)
 
     // // SLIDER CONTROLS
     // function moveSlider(value) {
