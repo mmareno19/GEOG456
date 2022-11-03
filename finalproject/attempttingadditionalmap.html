@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Madison Mareno Final Project</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css" integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ==" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js" integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ==" crossorigin=""></script>
+    <script src="myData.js"></script>
+</head>
+<style>
+    /* DEFINING THE MAP BOUNDS */
+    #map {
+        width: 800px;
+        height: 500px;
+    }
+
+    #map2 {
+        position: relative;
+        width: 800px;
+        height: 500px;
+    }
+
+    .info {
+        padding: 6px 8px;
+        font: 14px/16px Arial, Helvetica, sans-serif;
+        background: white;
+        background: rgba(255, 255, 255, 0.8);
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        border-radius: 5px;
+    }
+
+    .info h4 {
+        margin: 0 0 5px;
+        color: #777;
+    }
+
+    .info2 {
+        padding: 6px 8px;
+        font: 14px/16px Arial, Helvetica, sans-serif;
+        background: white;
+        background: rgba(255, 255, 255, 0.8);
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        border-radius: 5px;
+    }
+
+    .info2 h4 {
+        margin: 0 0 5px;
+        color: #777;
+    }
+
+
+    .legend {
+        text-align: left;
+        line-height: 18px;
+        color: #555;
+    }
+
+    .legend i {
+        width: 18px;
+        height: 18px;
+        float: left;
+        margin-right: 8px;
+        opacity: 0.7;
+    }
+
+    .legend2 {
+        text-align: left;
+        line-height: 18px;
+        color: #555;
+    }
+
+    .legend2 i {
+        width: 18px;
+        height: 18px;
+        float: left;
+        margin-right: 8px;
+        opacity: 0.7;
+    }
+</style>
+<!-- LABELING THE SLIDER -->
+<h3 id="daYear">Date: </h3>
+<!-- CREATING SLIDER RANGE -->
+<input type="range" name="fixeddate" min="0" max="50" oninput="moveSlider(this.value)" />
+
+<body>
+    <!-- CREATE TITLE -->
+    <h2>Total cost of 4 year in-state univeristy as a percentage of median income by state in the US from 2010-2018</h2>
+    <br>
+    <!-- CREATE DIV FOR MAP TO REST IN -->
+    <div id="map"></div>
+    <br>
+    <br>
+    <h2>Median incomes by State in the US from 2010-2018</h2>
+    <div id= "map2"></div>
+
+
+    <script>
+        // DEFINE MAP
+        var map = L.map('map').setView([39.82872481746798, -98.57575447833274], 4);
+        var map2 = L.map('map2').setView([39.82872481746798, -98.57575447833274], 4);
+        
+        // ASSIGN TILE LAYER TO MAP
+        const tiles= L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap'
+        }).addTo(map);
+        
+        const tiles2= L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap'
+        }).addTo(map2);
+        
+        // ADDING HOVERING CONTROLS
+        const info = L.control();
+        info.onAdd = function(map) {
+            this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+            this.update();
+            return this._div;
+        };
+        
+        
+        const info2 = L.control();
+        info2.onAdd = function(map2) {
+            this._div2 = L.DomUtil.create('div2', 'info2'); // create a div with a class "info"
+            this.update();
+            return this._div2;
+        };
+
+        // method that we will use to update the control based on feature properties passed
+        info.update = function (props) {
+		const contents = props ? `<b>${props.NAME}</b><br />${props.percent2010} %` : 'Hover over a state';
+		this._div.innerHTML = `<h4>College Cost as a Percentage of Median Income</h4>${contents}`;
+        };
+
+        info.addTo(map);
+        
+        info2.update = function (props2) {
+		const contents2 = props2 ? `<b>${props2.NAME}</b><br />$ ${props2.income2010}` : 'Hover over a state';
+		this._div2.innerHTML = `<h4>Median Income</h4>${contents2}`;
+        };
+        info2.addTo(map2);
+
+        //ASSIGNING COLOR TO CATEGORIES  
+        function getColor(d) {
+            return d > 55 ? '#084594' :
+                d > 50 ? '#2171b5' :
+                d > 45 ? '#4292c6' :
+                d > 40 ? '#6baed6' :
+                d > 35 ? '#9ecae1' :
+                d > 30 ? '#c6dbef' :
+                d > 25 ? '#eff3ff' :
+                '#f7fbff';
+        }
+
+        function getColor2(d2) {
+            return d2 > 78000 ? '#084594' :
+                d2 > 68000 ? '#2171b5' :
+                d2 > 58000 ? '#4292c6' :
+                d2 > 48000 ? '#6baed6' :
+                d2 > 38000 ? '#9ecae1' :
+                // d > 48000 ? '#c6dbef' :
+                // d > 38000 ? '#eff3ff' :
+                 '#f7fbff';
+        }
+        
+
+        // FUNCTION ASSIGNING THE COLORS TO POLYGONS
+        function style(feature) {
+            return {
+                fillColor: getColor(feature.properties.percent2010),
+                weight: 2,
+                opacity: 1,
+                color: 'white',
+                dashArray: '3',
+                fillOpacity: 1
+            };
+        }
+
+        function style2(feature) {
+            return {
+                fillColor: getColor(feature.properties.income2010),
+                weight: 2,
+                opacity: 1,
+                color: 'white',
+                dashArray: '3',
+                fillOpacity: 1
+            };
+        }
+
+
+     
+
+        // MOUSEOVER EVENT
+        // COPY AND PASTE NOT SPECIFIC
+        function highlightFeature(e) {
+            const layer = e.target;
+            
+            layer.setStyle({
+                weight: 5,
+                color: '#666',
+                dashArray: '',
+                fillOpacity: 0.7
+            });
+            layer.bringToFront();
+            info.update(layer.feature.properties);
+        }
+        
+        const geojson= L.geoJson(myData, {
+            style,
+            onEachFeature
+        }).addTo(map);
+
+        function resetHighlight(e) {
+            geojson.resetStyle(e.target);
+            info.update();
+        }
+
+        function zoomToFeature(e) {
+            map.fitBounds(e.target.getBounds());
+        }
+
+        function onEachFeature(feature, layer) {
+            layer.on({
+                mouseover: highlightFeature,
+                mouseout: resetHighlight,
+                click: zoomToFeature
+            });
+        }
+        // MAP 2
+        function highlightFeature2(e2) {
+            const layer2 = e2.target;
+            
+            layer2.setStyle({
+                weight: 5,
+                color: '#666',
+                dashArray: '',
+                fillOpacity: 0.7
+            });
+            layer2.bringToFront();
+            info2.update(layer2.feature2.properties);
+        }
+        const geojson2= L.geoJson(myData, {
+            style2,
+            onEachFeature
+        }).addTo(map2);
+
+        // function resetHighlight2(e2) {
+        //     geojson2.resetStyle(e2.target2);
+        //     info2.update();
+        // }
+
+        // function zoomToFeature2(e2) {
+        //     map2.fitBounds(e2.target2.getBounds());
+        // }
+
+        // function onEachFeature(feature2, layer2) {
+        //     layer2.on({
+        //         mouseover: highlightFeature2,
+        //         mouseout: resetHighlight2,
+        //         click: zoomToFeature2
+        //     });
+        // }
+
+
+        // LEGEND
+        var legend = L.control({position: 'bottomright'});
+
+        legend.onAdd = function (map) {
+
+            var div = L.DomUtil.create('div', 'info legend'),
+                grades = [25, 30, 35, 40, 45, 50, 55],
+                labels = [];
+
+            // loop through our density intervals and generate a label with a colored square for each interval
+            for (var i = 0; i < grades.length; i++) {
+                div.innerHTML +=
+                '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
+                grades[i] + (grades[i + 1] ? '% &ndash; ' + grades[i + 1] + '%<br>' : '%+');
+            }
+
+            return div;
+        };
+
+        legend.addTo(map);
+
+        // LEGEND 2
+        var legend2 = L.control({position: 'bottomright'});
+
+        legend2.onAdd = function (map2) {
+
+            var div2 = L.DomUtil.create('div2', 'info2 legend2'),
+                grades = [38000, 48000, 58000, 68000, 78000],
+                labels = [];
+
+            // loop through our density intervals and generate a label with a colored square for each interval
+            for (var i = 0; i < grades.length; i++) {
+                div2.innerHTML +=
+                '$<i style="background:' + getColor2(grades[i] + 1) + '"></i> ' +
+                grades[i] + (grades[i + 1] ? '&ndash; $' + grades[i + 1] + '<br>' : '+');
+            }
+
+            return div2;
+        };
+
+        legend2.addTo(map2);
+
+
+
+                // // FUNCTION MOVE SLIDER
+                // function moveSlider(value) {
+                //     document.getElementById('daYear').innerHTML = 'Date: ' + myData.features[value].properties.percent2010;
+                //     geojson.remove();
+                //     geojson = L.geoJson(myData.features[value].properties.percent2010, {
+                //         // pointToLayer: function(feature, latlng){
+                //         //     return L.marker(latlng, {icon: eIcon})
+                //     }).addTo(map);
+                // };
+    </script>
+
+</body>
+
+</html>
