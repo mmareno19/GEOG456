@@ -10,6 +10,10 @@
     <script src="myData.js"></script>
 </head>
 <style>
+    
+    body {
+        background-color: honeydew;
+    }
     /* DEFINING THE MAP BOUNDS */
     #map {
         width: 800px;
@@ -44,15 +48,15 @@
         opacity: 0.7;
     }
 </style>
-<!-- LABELING THE SLIDER -->
-<h3 id="daYear">Year: </h3>
-<!-- CREATING SLIDER RANGE -->
-<input type="range" name="mySlider" value='2010' min="2010" max="2018" step='2' oninput="moveSlider(this.value)" />
 
 <body>
     <!-- CREATE TITLE -->
     <h2>Average total cost of college by state in the US from 2010-2018</h2>
-    <br>
+    <!-- LABELING THE SLIDER -->
+    <h3 id="daYear">Year: </h3>
+    <!-- CREATING SLIDER RANGE -->
+    <input type="range" name="mySlider" value='2010' min="2010" max="2018" step='2' oninput="moveSlider(this.value)" />
+
     <!-- CREATE DIV FOR MAP TO REST IN -->
     <div id="map"></div>
 
