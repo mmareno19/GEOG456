@@ -47,7 +47,7 @@
 <!-- LABELING THE SLIDER -->
 <h3 id="daYear">Year: </h3>
 <!-- CREATING SLIDER RANGE -->
-<input type="range" name="fixeddate" min="0" max="50" oninput="moveSlider(this.value)" />
+<input type="range" name="mySlider" value='2010' min="2010" max="2018" step='2' oninput="moveSlider(this.value)" />
 
 <body>
     <!-- CREATE TITLE -->
@@ -76,7 +76,7 @@
 
         // method that we will use to update the control based on feature properties passed
         info.update = function (props) {
-		const contents = props ? `<b>${props.NAME}</b><br />${props.percent2010} %` : 'Hover over a state';
+		var contents = props ? `<b>${props.NAME}</b><br />${props['percent'+selectedYear]} %` : 'Hover over a state';
 		this._div.innerHTML = `<h4>College Cost as a Percentage of Median Income</h4>${contents}`;
 	    };
 
@@ -93,11 +93,11 @@
                 d > 25 ? '#eff3ff' :
                 '#f7fbff';
         }
-
+        var selectedYear = 2010;
         // FUNCTION ASSIGNING THE COLORS TO POLYGONS
         function style(feature) {
             return {
-                fillColor: getColor(feature.properties.percent2010),
+                fillColor: getColor(feature.properties['percent'+selectedYear]),
                 weight: 2,
                 opacity: 1,
                 color: 'white',
@@ -125,7 +125,7 @@
         }
         
         // states data
-        const geojson= L.geoJson(myData, {
+        var geojson= L.geoJson(myData, {
             style,
             onEachFeature
         }).addTo(map);
@@ -191,18 +191,19 @@
         // }
 
 
-
                 // FUNCTION MOVE SLIDER
                 function moveSlider(value) {
-                    document.getElementById('daYear').innerHTML = 'Date: ' + myData.features[value].properties.percent2010;
-                    geojson.remove();
-                    geojson = L.geoJson(myData.features[value].properties.percent2010, {
-                        // pointToLayer: function(feature, latlng){
-                        //     return L.marker(latlng, {icon: eIcon})
-                    }).addTo(map);
+                    selectedYear = value;
+                    console.log(value)
+                    document.getElementById('daYear').innerHTML = 'Year: ' + value;
+                    geojson.resetStyle()
                 };
-    </script>
 
+    </script>
+        <h4>Visulalizations of the data behind the percentages:</h4>
+        <a id = "link" href = https://mmareno19.github.io/GEOG456/finalproject/incomemap.html>Exploration of median incomes in the United States from 2010-2018</a>
+        <br>
+        <a id = "link" href = https://mmareno19.github.io/GEOG456/finalproject/collegecost.html>Exploration of average total cost of college in the United States from 2010-2018</a>
 </body>
 
 </html>

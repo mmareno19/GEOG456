@@ -47,7 +47,7 @@
 <!-- LABELING THE SLIDER -->
 <h3 id="daYear">Year: </h3>
 <!-- CREATING SLIDER RANGE -->
-<input type="range" name="fixeddate" min="0" max="50" oninput="moveSlider(this.value)" />
+<input type="range" name="mySlider" value='2010' min="2010" max="2018" step='2' oninput="moveSlider(this.value)" />
 
 <body>
     <!-- CREATE TITLE -->
@@ -76,7 +76,7 @@
 
         // method that we will use to update the control based on feature properties passed
         info.update = function (props) {
-		const contents = props ? `<b>${props.NAME}</b><br />$${props.income2010}` : 'Hover over a state';
+		const contents = props ? `<b>${props.NAME}</b><br />$${props['income'+selectedYear]}` : 'Hover over a state';
 		this._div.innerHTML = `<h4>College Cost as a Percentage of Median Income</h4>${contents}`;
 	    };
 
@@ -84,25 +84,27 @@
 
         //ASSIGNING COLOR TO CATEGORIES  
         function getColor(d) {
-            return d > 78000 ? '#084594' :
-                d > 68000 ? '#2171b5' :
-                d >  58000 ? '#4292c6' :
+            return d > 78000 ? '#08519c' :
+                d > 70000 ? '#3182bd' :
+                d >  62000 ? '#6baed6' :
                 // d > 48000 ? '#6baed6' :
-                d > 48000 ? '#9ecae1' :
+                d > 54000 ? '#bdd7e7' :
                 // d > 48000 ? '#c6dbef' :
-                d > 38000 ? '#eff3ff' :
+                d > 46000 ? '#eff3ff' :
+                d < 46000 ? '#f7fbff':
                 '#f7fbff';
         }
+        var selectedYear = 2010;
 
         // FUNCTION ASSIGNING THE COLORS TO POLYGONS
         function style(feature) {
             return {
-                fillColor: getColor(feature.properties.income2010),
+                fillColor: getColor(feature.properties['income'+selectedYear]),
                 weight: 2,
                 opacity: 1,
                 color: 'white',
                 dashArray: '3',
-                fillOpacity: 1
+                fillOpacity: 2
             };
         }
 
@@ -120,10 +122,8 @@
                 fillOpacity: 0.7
             });
             layer.bringToFront();
-        
             info.update(layer.feature.properties);
         }
-    
         const geojson= L.geoJson(myData, {
             style,
             onEachFeature
@@ -192,13 +192,12 @@
 
 
                 // FUNCTION MOVE SLIDER
+                // FUNCTION MOVE SLIDER
                 function moveSlider(value) {
-                    document.getElementById('daYear').innerHTML = 'Date: ' + myData.features[value].properties.income2010;
-                    geojson.remove();
-                    geojson = L.geoJson(myData.features[value].properties.income2010, {
-                        // pointToLayer: function(feature, latlng){
-                        //     return L.marker(latlng, {icon: eIcon})
-                    }).addTo(map);
+                    selectedYear = value;
+                    console.log(value)
+                    document.getElementById('daYear').innerHTML = 'Year: ' + value;
+                    geojson.resetStyle()
                 };
     </script>
 

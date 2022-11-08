@@ -44,19 +44,48 @@
         opacity: 0.7;
     }
 </style>
-<!-- LABELING THE SLIDER -->
-<h3 id="daYear">Year: </h3>
-<!-- CREATING SLIDER RANGE -->
-<input type="range" name="mySlider" value='2010' min="2010" max="2018" step='2' oninput="moveSlider(this.value)" />
 
 <body>
     <!-- CREATE TITLE -->
-    <h2>Average total cost of college by state in the US from 2010-2018</h2>
-    <br>
+    <h2>Total cost of 4 year in-state univeristy as a percentage of median income by state in the US from 2010-2018</h2>
+    <!-- LABELING THE SLIDER -->   
+    <h3 id="daYear">Year: </h3>
+    <!-- CREATING SLIDER RANGE --> 
+    <input type="range" name="allArrays" min="0" max="4" oninput="moveSlider(this.value)" />
     <!-- CREATE DIV FOR MAP TO REST IN -->
     <div id="map"></div>
 
     <script>
+        // ORGANIZE DATA INTO SLIDER ARAY
+        myArray2010=[];
+        for (var i = 0; i < myData.features.length; i++) {
+        percent2010forarray =(myData.features[i].properties.percent2010);
+        myArray2010.push(percent2010forarray)};
+
+        myArray2012=[];
+        for (var i = 0; i < myData.features.length; i++) {
+        percent2012forarray =(myData.features[i].properties.percent2012);
+        myArray2012.push(percent2012forarray)};
+
+        myArray2014=[];
+        for (var i = 0; i < myData.features.length; i++) {
+        percent2014forarray =(myData.features[i].geometry, myData.features[i].properties.percent2014);
+        // percent2014forarray2 = (myData.features[i].geometry);
+        myArray2014.push(percent2014forarray)};
+
+        myArray2016=[];
+        for (var i = 0; i < myData.features.length; i++) {
+        percent2016forarray =(myData.features[i].properties.percent2016);
+        myArray2016.push(percent2016forarray)};
+
+        myArray2018=[];
+        for (var i = 0; i < myData.features.length; i++) {
+        percent2018forarray =(myData.features[i].properties.percent2018);
+        myArray2018.push(percent2018forarray)};
+
+        allArrays = [];
+        allArrays.push(myArray2010, myArray2012, myArray2014, myArray2016, myArray2018)
+        
         // DEFINE MAP
         var map = L.map('map').setView([39.82872481746798, -98.57575447833274], 4);
         // ASSIGN TILE LAYER TO MAP
@@ -76,7 +105,7 @@
 
         // method that we will use to update the control based on feature properties passed
         info.update = function (props) {
-		const contents = props ? `<b>${props.NAME}</b><br />$${props['cost'+selectedYear]}` : 'Hover over a state';
+		const contents = props ? `<b>${props.NAME}</b><br />${props.percent2014} %` : 'Hover over a state';
 		this._div.innerHTML = `<h4>College Cost as a Percentage of Median Income</h4>${contents}`;
 	    };
 
@@ -84,21 +113,20 @@
 
         //ASSIGNING COLOR TO CATEGORIES  
         function getColor(d) {
-            return d > 27000 ? '#084594' :
-                d > 24000 ? '#2171b5' :
-                d >  21000 ? '#4292c6' :
-                d > 18000 ? '#6baed6' :
-                // d > 18000 ? '#9ecae1' :
-
-                d > 15000 ? '#c6dbef' :
-                // d > 15000 ? '#eff3ff' :
+            return d > 55 ? '#084594' :
+                d > 50 ? '#2171b5' :
+                d > 45 ? '#4292c6' :
+                d > 40 ? '#6baed6' :
+                d > 35 ? '#9ecae1' :
+                d > 30 ? '#c6dbef' :
+                d > 25 ? '#eff3ff' :
                 '#f7fbff';
         }
-        var selectedYear = 2010;
+
         // FUNCTION ASSIGNING THE COLORS TO POLYGONS
         function style(feature) {
             return {
-                fillColor: getColor(feature.properties['cost'+selectedYear]),
+                fillColor: getColor(moveSlider),
                 weight: 2,
                 opacity: 1,
                 color: 'white',
@@ -121,10 +149,11 @@
                 fillOpacity: 0.7
             });
             layer.bringToFront();
-        
+            // added
             info.update(layer.feature.properties);
         }
-    
+        
+        // states data
         const geojson= L.geoJson(myData, {
             style,
             onEachFeature
@@ -154,14 +183,14 @@
         legend.onAdd = function (map) {
 
             var div = L.DomUtil.create('div', 'info legend'),
-                grades = [15000, 18000, 21000, 24000, 27000],
+                grades = [25, 30, 35, 40, 45, 50, 55],
                 labels = [];
 
             // loop through our density intervals and generate a label with a colored square for each interval
             for (var i = 0; i < grades.length; i++) {
                 div.innerHTML +=
-                '<i style="background:' + getColor(grades[i] + 1) + '"></i> $' +
-                grades[i] + (grades[i + 1] ? '&ndash;$' + grades[i + 1] + '<br>' : '+');
+                '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
+                grades[i] + (grades[i + 1] ? '% &ndash; ' + grades[i + 1] + '%<br>' : '%+');
             }
 
             return div;
@@ -169,39 +198,33 @@
 
         legend.addTo(map);
 
-                // function getColor(grades) {
-                // return d > .56 ? '#084594' :
-                //    d > .51  ? '#2171b5' :
-                //    d > .46  ? '#4292c6' :
-                //    d > .41  ? '#6baed6' :
-                //    d > .36   ? '#9ecae1' :
-                //    d > .31   ? '#c6dbef' :
-                //    d > .26   ? '#eff3ff' :
-                //             '#f7fbff';
-                // }
-        //         function getColor(grades) {
-        //     return grades > .56 ? '#084594' :
-        //         grades > .51 ? '#2171b5' :
-        //         grades > .46 ? '#4292c6' :
-        //         grades > .41 ? '#6baed6' :
-        //         grades > .36 ? '#9ecae1' :
-        //         grades > .31 ? '#c6dbef' :
-        //         grades > .26 ? '#eff3ff' :
-        //         '#f7fbff';
-        // }
-
-
-
+                
                 // FUNCTION MOVE SLIDER
                 function moveSlider(value) {
-                    selectedYear = value;
-                    console.log(value)
-                    document.getElementById('daYear').innerHTML = 'Year: ' + value;
-                    geojson.resetStyle()
+                    document.getElementById('daYear').innerHTML = 'Year: ' + allArrays[value];
+                    geojson.remove();
+                    // geojson = L.geoJson(allArrays[value], {
+                    geojson = L.geoJson(myData.features[value].properties.percent2010,{  
+                    }).addTo(map);
                 };
-
+                // var myCurrent = percent2014;
+                // moveSlider(myCurrent)
     </script>
 
+        <h4>Visulalizations of the data behind the percentages:</h4>
+        <a id = "link" href = https://mmareno19.github.io/GEOG456/finalproject/incomemap.html>Exploration of median incomes in the United States from 2010-2018</a>
+        <br>
+        <a id = "link" href = https://mmareno19.github.io/GEOG456/finalproject/collegecost.html>Exploration of average total cost of college in the United States from 2010-2018</a>
 </body>
 
 </html>
+<!-- EXTRAS -->
+<!-- // // FUNCTION MOVE SLIDER
+// function moveSlider(value) {
+//     document.getElementById('daYear').innerHTML = 'Year: ' + myData.features[value].properties.percent2010;
+//     geojson.remove();
+//     geojson = L.geoJson(myData.features[value].properties.percent2010, {
+//         // pointToLayer: function(feature, latlng){
+//         //     return L.marker(latlng, {icon: eIcon})
+//     }).addTo(map);
+// }; -->
