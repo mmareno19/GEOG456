@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Madison Mareno Final Project</title>
+    <title>Cost as a Percent of Income Visual</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css" integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ==" crossorigin="" />
     <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js" integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ==" crossorigin=""></script>
     <script src="myData.js"></script>
@@ -44,17 +44,18 @@
         opacity: 0.7;
     }
 </style>
-<!-- LABELING THE SLIDER -->
-<h3 id="daYear">Year: </h3>
-<!-- CREATING SLIDER RANGE -->
-<input type="range" name="mySlider" value='2010' min="2010" max="2018" step='2' oninput="moveSlider(this.value)" />
 
 <body>
     <!-- CREATE TITLE -->
     <h2>Total cost of 4 year in-state univeristy as a percentage of median income by state in the US from 2010-2018</h2>
-    <br>
+    <!-- LABELING THE SLIDER -->    
+    <h3 id="daYear">Year: </h3>
+    <!-- CREATING SLIDER RANGE -->
+    <input type="range" name="mySlider" value='2010' min="2010" max="2018" step='2' oninput="moveSlider(this.value)" />
+
     <!-- CREATE DIV FOR MAP TO REST IN -->
     <div id="map"></div>
+   
 
     <script>
         // DEFINE MAP
@@ -84,14 +85,14 @@
 
         //ASSIGNING COLOR TO CATEGORIES  
         function getColor(d) {
-            return d > 55 ? '#084594' :
-                d > 50 ? '#2171b5' :
-                d > 45 ? '#4292c6' :
-                d > 40 ? '#6baed6' :
-                d > 35 ? '#9ecae1' :
-                d > 30 ? '#c6dbef' :
-                d > 25 ? '#eff3ff' :
-                '#f7fbff';
+            return d > 50 ? '#4a1486' :
+                d > 45 ? '#6a51a3' :
+                d > 40 ? '#807dba' :
+                d > 35 ? '#9e9ac8' :
+                d > 30 ? '#bcbddc' :
+                d > 25 ? '#dadaeb' :
+                d > 20 ? '#efedf5' :
+                '#fcfbfd';
         }
         var selectedYear = 2010;
         // FUNCTION ASSIGNING THE COLORS TO POLYGONS
@@ -154,7 +155,7 @@
         legend.onAdd = function (map) {
 
             var div = L.DomUtil.create('div', 'info legend'),
-                grades = [25, 30, 35, 40, 45, 50, 55],
+                grades = [20, 25, 30, 35, 40, 45, 50],
                 labels = [];
 
             // loop through our density intervals and generate a label with a colored square for each interval
@@ -169,27 +170,6 @@
 
         legend.addTo(map);
 
-                // function getColor(grades) {
-                // return d > .56 ? '#084594' :
-                //    d > .51  ? '#2171b5' :
-                //    d > .46  ? '#4292c6' :
-                //    d > .41  ? '#6baed6' :
-                //    d > .36   ? '#9ecae1' :
-                //    d > .31   ? '#c6dbef' :
-                //    d > .26   ? '#eff3ff' :
-                //             '#f7fbff';
-                // }
-        //         function getColor(grades) {
-        //     return grades > .56 ? '#084594' :
-        //         grades > .51 ? '#2171b5' :
-        //         grades > .46 ? '#4292c6' :
-        //         grades > .41 ? '#6baed6' :
-        //         grades > .36 ? '#9ecae1' :
-        //         grades > .31 ? '#c6dbef' :
-        //         grades > .26 ? '#eff3ff' :
-        //         '#f7fbff';
-        // }
-
 
                 // FUNCTION MOVE SLIDER
                 function moveSlider(value) {
@@ -198,12 +178,26 @@
                     document.getElementById('daYear').innerHTML = 'Year: ' + value;
                     geojson.resetStyle()
                 };
+                
+                // buttons
+                function visitPage(){
+                window.location='https://mmareno19.github.io/GEOG456/finalproject/incomemap.html';
+                }
+                function visitPage2(){
+                window.location='https://mmareno19.github.io/GEOG456/finalproject/collegecost.html';
+                }
 
     </script>
-        <h4>Visulalizations of the data behind the percentages:</h4>
-        <a id = "link" href = https://mmareno19.github.io/GEOG456/finalproject/incomemap.html>Exploration of median incomes in the United States from 2010-2018</a>
         <br>
-        <a id = "link" href = https://mmareno19.github.io/GEOG456/finalproject/collegecost.html>Exploration of average total cost of college in the United States from 2010-2018</a>
+        If you wish to explore visulalizations of the data behind the percentages, click the following links:
+        <br>
+        <br>
+         <!-- CREATING BUTTONS TO NAVIGATE BETWEEN PAGES -->
+        <button onclick="visitPage();">Median incomes visualization</button>
+        <br>
+        <br>
+        <button onclick="visitPage2();">Total cost of colleges visualization</button>
+
 </body>
 
 </html>

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Madison Mareno Final Project</title>
+    <title>College Cost Visual</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css" integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ==" crossorigin="" />
     <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js" integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ==" crossorigin=""></script>
     <script src="myData.js"></script>
@@ -84,15 +84,15 @@
 
         //ASSIGNING COLOR TO CATEGORIES  
         function getColor(d) {
-            return d > 27000 ? '#084594' :
-                d > 24000 ? '#2171b5' :
-                d >  21000 ? '#4292c6' :
-                d > 18000 ? '#6baed6' :
+            return d > 27000 ? '#006d2c' :
+                d > 24000 ? '#31a354' :
+                d >  21000 ? '#74c476' :
+                d > 18000 ? '#a1d99b' :
                 // d > 18000 ? '#9ecae1' :
 
-                d > 15000 ? '#c6dbef' :
-                // d > 15000 ? '#eff3ff' :
-                '#f7fbff';
+                d > 15000 ? '#c7e9c0' :
+                d > 13000 ? '#edf8e9' :
+                '#edf8e9';
         }
         var selectedYear = 2010;
         // FUNCTION ASSIGNING THE COLORS TO POLYGONS
@@ -154,7 +154,7 @@
         legend.onAdd = function (map) {
 
             var div = L.DomUtil.create('div', 'info legend'),
-                grades = [15000, 18000, 21000, 24000, 27000],
+                grades = [13000, 15000, 18000, 21000, 24000, 27000],
                 labels = [];
 
             // loop through our density intervals and generate a label with a colored square for each interval
@@ -200,7 +200,24 @@
                     geojson.resetStyle()
                 };
 
+                function visitPage(){
+                window.location='https://mmareno19.github.io/GEOG456/finalproject/percentmapandindex.html';
+                }
+                function visitPage2(){
+                window.location='https://mmareno19.github.io/GEOG456/finalproject/collegecost.html';
+                }
+
     </script>
+            <br>
+            
+            <br>
+            <br>
+             <!-- CREATING BUTTONS TO NAVIGATE BETWEEN PAGES -->
+            <button onclick="visitPage();">Return to cost of college as a percentage of median income visualization</button>
+            <br>
+            <br>
+            <button onclick="visitPage2();">Median incomes visualization</button>
+
 
 </body>
 
