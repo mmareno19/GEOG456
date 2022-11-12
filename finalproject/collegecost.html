@@ -10,7 +10,20 @@
     <script src="myData.js"></script>
 </head>
 <style>
-    
+    p.big {
+        line-height: 1.8;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+    h2 {
+        font-size: 30px;
+        font-family: Arial, Helvetica, sans-serif;
+        position: relative;
+        text-align: center;
+    }      
+    h4 {
+        font-size: 18px;
+        font-family: Arial, Helvetica, sans-serif;
+    } 
     body {
         background-color: honeydew;
     }
@@ -47,13 +60,17 @@
         margin-right: 8px;
         opacity: 0.7;
     }
+
+    p.big {
+        line-height: 1.8;
+    }
 </style>
 
 <body>
     <!-- CREATE TITLE -->
-    <h2>Average total cost of college by state in the US from 2010-2018</h2>
+    <h2>Average total cost of a 4-year public university by state in the US from 2010-2018</h2>
     <!-- LABELING THE SLIDER -->
-    <h3 id="daYear">Year: </h3>
+    <h4 id="daYear">Year: </h4>
     <!-- CREATING SLIDER RANGE -->
     <input type="range" name="mySlider" value='2010' min="2010" max="2018" step='2' oninput="moveSlider(this.value)" />
 
@@ -222,9 +239,7 @@
             
             <br>
             <br>
-            Explore related visualizations here:
-            <br>
-            <br>
+            <h4>Explore related visualizations here:</h4>
              <!-- CREATING BUTTONS TO NAVIGATE BETWEEN PAGES -->
             <button onclick="visitPage();">Return to cost of college as a percentage of median income visualization</button>
             <br>
@@ -232,17 +247,22 @@
             <button onclick="visitPage2();">Median incomes visualization</button>
             <br>
             <br>
-            The following link navigates to PolicyMap. The above visualization was created using 
-            "Average total price for an in-state education at a 4-year public university" data available for download with an account here:
+            <h4>What does the average total cost for a 4-year university include?</h4>
+
+            <p class="big">   "Average total price for an in-state education at a 4-year public university, during the [respective] academic year. 
+                PolicyMap estimates the average total cost as the sum of tuition, fees, room and board, and expenses for an in-state, full-time 
+                undergraduate student living on campus. Average total cost was calculated by multiplying the reported costs for each institution by full 
+                time enrollment and dividing that value by the total enrollment in the state."
             <br>
-            <br>
+                The following button navigates to PolicyMap. The above visualization's data and description of the data was sourced from 
+            "Average total price for an in-state education at a 4-year public university" data available for download with a PolicyMap account here:
             <button onclick="visitPage3();">PolicyMap</button>
             <br>
             <br>
             PolicyMap sources their data from the National Center for Education Statistics (NCES). More information on NCES's data can be found here:
-            <br>
-            <br>
+
             <button onclick="visitPage4();">NCES Use the Data</button>
+        </p> 
 
 
 
