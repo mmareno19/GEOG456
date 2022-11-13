@@ -23,15 +23,22 @@
     h4 {
         font-size: 18px;
         font-family: Arial, Helvetica, sans-serif;
+        text-align: center;
     }   
         body {
         background-color: linen;
+    }
+    .sliderlabel{
+        font-size: 18px;
+        font-family: Arial, Helvetica, sans-serif;
+        margin: auto;
+        text-align: center;
     }
     /* DEFINING THE MAP BOUNDS */
     #map {
         width: 800px;
         height: 500px;
-        position: relative;
+        margin: auto;
 
     }
 
@@ -62,16 +69,27 @@
         margin-right: 8px;
         opacity: 0.7;
     }
+    .center-block {
+        display: block;
+        margin-right: auto;
+        margin-left: auto;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 15px;
+    }
+    .button{
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 15px;
+    }
 </style>
 <body>
     
     <!-- CREATE TITLE -->
     <h2>Median household income by state in the US from 2010-2018</h2>
 
-    <!-- LABELING THE SLIDER -->
-    <h4 id="daYear">Year: </h4> 
+    <p class="sliderlabel" id="daYear">Year:</p> 
     <!-- CREATING SLIDER RANGE -->
-    <input type="range" name="mySlider" value='2010' min="2010" max="2018" step='2' oninput="moveSlider(this.value)" />
+
+    <input class="center-block" type="range" name="mySlider" value='2010' min="2010" max="2018" step='2' oninput="moveSlider(this.value)" />
 
     <!-- CREATE DIV FOR MAP TO REST IN -->
     <div id="map"></div>
@@ -97,7 +115,7 @@
         // method that we will use to update the control based on feature properties passed
         info.update = function (props) {
 		const contents = props ? `<b>${props.NAME}</b><br />$${props['income'+selectedYear]}` : 'Hover over a state';
-		this._div.innerHTML = `<h4>College Cost as a Percentage of Median Income</h4>${contents}`;
+		this._div.innerHTML = `<h4>Median Household Income</h4>${contents}`;
 	    };
 
 	    info.addTo(map);
@@ -232,15 +250,11 @@
 
     </script>
             <br>
-
- 
             <!-- CREATING BUTTONS TO NAVIGATE BETWEEN PAGES -->
              <h4>Explore related visualizations here:</h4>
-            <button onclick="visitPage();">Return to cost of college as a percentage of median income visualization</button>
+            <button class= "center-block" onclick="visitPage();">Return to cost of college as a percentage of median income visualization</button>
             <br>
-            <br>
-            <button onclick="visitPage2();">Cost of colleges visualization</button>
-            <br>
+            <button class= "center-block" onclick="visitPage2();">Cost of 4-year public universities visualization</button>
 
             <h4>What does the median household income by state in the US include?</h4>
 
@@ -249,7 +263,7 @@
                 The standard error estimates were excluded from the data portrayed by the visualizations.
             <br>
             The above visualization was created using "Table H-8. Median Household Income by State" data available for download from the US Census Bureau here:
-            <button onclick="visitPage3();">Income data from US Census Bureau</button>
+            <button class= "button" onclick="visitPage3();">Income data from US Census Bureau</button>
         </p>
 
 

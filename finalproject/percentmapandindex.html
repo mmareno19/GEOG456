@@ -11,6 +11,11 @@
 </head>
 <style>
     /* DEFINING THE MAP BOUNDS */
+    p.big {
+        line-height: 1.8;
+        font-family: Arial, Helvetica, sans-serif;
+
+    }
     h2 {
         font-size: 30px;
         font-family: Arial, Helvetica, sans-serif;
@@ -20,6 +25,12 @@
     h4 {
         font-size: 18px;
         font-family: Arial, Helvetica, sans-serif;
+        text-align: center;
+    }
+    h6{
+        font-size: 15px;
+        font-family: Arial, Helvetica, sans-serif; 
+        text-align: center;  
     }
     
     .sliderlabel{
@@ -70,10 +81,13 @@
         display: block;
         margin-right: auto;
         margin-left: auto;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 15px;
     }
     #image {
         width: 600px;
-        margin: auto;
+        margin-right: auto;
+        margin-left: auto;
     }
 </style>
 
@@ -222,21 +236,33 @@
                 }
 
     </script>
-        <br>
         <h4>Explore the specifics and visualizations of the raw data that the percentages were derived from here:</h4>
 
          <!-- CREATING BUTTONS TO NAVIGATE BETWEEN PAGES -->
-        <button onclick="visitPage();">Median incomes visualization</button>
+        <button class="center-block" onclick="visitPage();">Median household incomes visualization</button>
         <br>
-        <br>
-        <button onclick="visitPage2();">Total cost of colleges visualization</button>
-        <br>
-        <br>
+        <button class="center-block" onclick="visitPage2();">Total cost of 4-year public universities visualization</button>
+
         <h4>Comparison of Average College Costs and Average Earnings for Persons Ages 22-27 in the US</h4>
-        <img id='image' src="./png/costimage.png" alt="">
+        <h6>"The average price tag for
+            undergraduate education, including tuition, fees,
+            room, and board, has increased by 169 percent
+            since 1980"</h6>
+        <img class= "center-block" id='image' src="./png/costimage.png" alt="">
         <br>
-        <br>
-        <button onclick="visitPage3();">Report from Georgetown University Center on Education and the Workforce</button>
+        <button class= "center-block" onclick="visitPage3();">Report from Georgetown University Center on Education and the Workforce</button>
+        <p class="big">The discussion in Georgetown University Center on Education and the Workforce's report that accompanies the above 
+            line graph explains that "while young people today need more education than ever
+            to compete in the labor market, a college education is more expensive than in the past."
+            Additionally, "It used to be possible to work one’s way through college, [but]
+            today, college costs are generally too high—and young people’s wages too low—for that to be
+            feasible."
+            In result, an increasing number of students are acquiring increasing amounts of student debt
+            to obtain a degree.
+
+
+        </p>
+
 
 
 
