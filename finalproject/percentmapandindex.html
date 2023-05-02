@@ -10,11 +10,10 @@
     <script src="myData.js"></script>
 </head>
 <style>
-    /* DEFINING THE MAP BOUNDS */
+    /* STYLING FOR HEADERS AND TEXT OPTIONS */
     p.big {
         line-height: 1.8;
         font-family: Arial, Helvetica, sans-serif;
-
     }
     h2 {
         font-size: 30px;
@@ -24,7 +23,6 @@
         outline-style: solid;
         top: 10%;
         -webkit-text-stroke-width: 1px;
-
     } 
     h4 {
         font-size: 18px;
@@ -37,6 +35,7 @@
         text-align: center;  
     }
     
+    /* CREATE SLIDER LABEL CLASS TO STYLE SLIDER LABEL */
     .sliderlabel{
         font-size: 18px;
         font-family: Arial, Helvetica, sans-serif;
@@ -44,9 +43,12 @@
         text-align: center;
     }
 
+    /* DEFINE BACKGROUND COLOR */
     body {
         background-color: lavender;
     }
+   
+   /* DEFINE MAP SIZE AND PLACEMENT */
     #map {
         width: 800px;
         height: 500px;
@@ -54,6 +56,8 @@
 
 
     }
+    
+    /* CREATE INFO CLASS TO STYLE HOVER FEATURE */
     .info {
         padding: 6px 8px;
         font: 14px/16px Arial, Helvetica, sans-serif;
@@ -62,12 +66,12 @@
         box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
         border-radius: 5px;
     }
-
     .info h4 {
         margin: 0 0 5px;
         color: #777;
     }
-
+    
+    /* CREATE STYLING FOR THE LEGEND */
     .legend {
         text-align: left;
         line-height: 18px;
@@ -81,6 +85,8 @@
         margin-right: 8px;
         opacity: 0.7;
     }
+    
+    /* CENTER BUTTON STYLING */
     .center-block {
         display: block;
         margin-right: auto;
@@ -88,6 +94,8 @@
         font-family: Arial, Helvetica, sans-serif;
         font-size: 15px;
     }
+    
+    /* SET SIZE AND PLACEMENT OF IMAGE */
     #image {
         width: 600px;
         margin-right: auto;
@@ -143,7 +151,10 @@
                 d > 20 ? '#efedf5' :
                 '#fcfbfd';
         }
+        
+        //DEFINE THE BEGINING YEAR OF THE SLIDER AND CHOROPLETH VALUES 
         var selectedYear = 2010;
+        
         // FUNCTION ASSIGNING THE COLORS TO POLYGONS
         function style(feature) {
             return {
@@ -155,8 +166,6 @@
                 fillOpacity: 1
             };
         }
-
-     
 
         // MOUSEOVER EVENT
         // COPY AND PASTE NOT SPECIFIC
@@ -170,25 +179,27 @@
                 fillOpacity: 0.7
             });
             layer.bringToFront();
-            // added
             info.update(layer.feature.properties);
         }
         
-        // states data
+        // ADD GEOJSON WEITH MY DATA AND STYLING
         var geojson= L.geoJson(myData, {
             style,
             onEachFeature
         }).addTo(map);
 
+        // CREATE FUNCTION THAT RESETS THE HIGHLIGHT FEATURE (RELATED TO HOVER)
         function resetHighlight(e) {
             geojson.resetStyle(e.target);
             info.update();
         }
-
+        
+        // FUNCTION FOR ZOOMING TO FEATURE UPON CLICK
         function zoomToFeature(e) {
             map.fitBounds(e.target.getBounds());
         }
-
+        
+        // DEFINE WHEN THE FUNCTIONS TAKE PLACE (EX: ONCLICK, MOUSEOVER, MOUSEOUT)
         function onEachFeature(feature, layer) {
             layer.on({
                 mouseover: highlightFeature,
@@ -198,25 +209,22 @@
         }
 
 
-        // LEGEND
+        // CREATE CONTROL WITH A LEGEND 
         var legend = L.control({position: 'bottomright'});
 
+        // ADD LEGEND TO MAP
+        // DEFINE GRADES AND LABEL LEGEND
         legend.onAdd = function (map) {
-
-            var div = L.DomUtil.create('div', 'info legend'),
-                grades = [20, 25, 30, 35, 40, 45, 50],
-                labels = [];
-
-            // loop through our density intervals and generate a label with a colored square for each interval
-            for (var i = 0; i < grades.length; i++) {
-                div.innerHTML +=
-                '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
-                grades[i] + (grades[i + 1] ? '% &ndash; ' + grades[i + 1] + '%<br>' : '%+');
+        var div = L.DomUtil.create('div', 'info legend'),
+            grades = [20, 25, 30, 35, 40, 45, 50],
+            labels = [];
+        for (var i = 0; i < grades.length; i++) {
+            div.innerHTML +=
+            '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
+            grades[i] + (grades[i + 1] ? '% &ndash; ' + grades[i + 1] + '%<br>' : '%+');
             }
-
             return div;
         };
-
         legend.addTo(map);
 
 
